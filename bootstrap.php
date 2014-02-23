@@ -15,12 +15,13 @@ class Bootstrap {
         //TODO これでええんか。
         //http://koseki.hatenablog.com/entry/20120210/phpuri
         $arrs = parse_url(Config::get('PAGE_URL'));
-        $urlPath = Config::get('DOCUMENT_ROOT') . '/app/View' . ($arrs['path'] === '/' ? '/index' : $arrs['path']) . '.php';
+        $urlPath = Config::get('DOCUMENT_ROOT') . '/app/View' . $arrs['path'] . (substr($arrs['path'], -1) === '/' ? 'index' : '') . '.php';
 
         if(file_exists($urlPath)) {
             include_once $urlPath;
         } else {
             header("HTTP/1.0 404 Not Found");
+            include_once Config::get('DOCUMENT_ROOT') . '/app/View/Errors/error404.php';
         }
     }
 }
